@@ -1,0 +1,116 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #0b0e17;
+  --surface: #131826;
+  --border: #1e2536;
+  --ink: #f1f3f8;
+  --ink-secondary: #b8c0d4;
+  --ink-tertiary: #7c8699;
+  --accent: #e8b84c;
+  --accent-hover: #f0ce7a;
+  --ink-inverted: #0b0e17;
+  --positive: #6fd08c;
+  --caution: #f0a53a;
+}
+
+/* The metric-matched stand-ins shown until the web fonts arrive (font-display: swap), with the exact
+   overrides next/font/google generated for these two families, so the swap moves text no more than
+   it did. fonts/index.ts names them as each font's fallback. */
+@font-face {
+  font-family: "Hanken Grotesk Fallback";
+  src: local(Arial);
+  ascent-override: 99.07%;
+  descent-override: 30.02%;
+  line-gap-override: 0%;
+  size-adjust: 100.94%;
+}
+
+@font-face {
+  font-family: "Manrope Fallback";
+  src: local(Arial);
+  ascent-override: 103.31%;
+  descent-override: 29.07%;
+  line-gap-override: 0%;
+  size-adjust: 103.19%;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-border: var(--border);
+  --color-ink: var(--ink);
+  --color-ink-secondary: var(--ink-secondary);
+  --color-ink-tertiary: var(--ink-tertiary);
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-ink-inverted: var(--ink-inverted);
+  --color-positive: var(--positive);
+  --color-caution: var(--caution);
+  --font-display: var(--font-hanken-grotesk);
+  --font-sans: var(--font-manrope);
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* The game is the whole page: nothing scrolls, and a phone's pull-to-refresh never fires mid-drive. */
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  overscroll-behavior: none;
+  background: var(--bg);
+  color: var(--ink);
+}
+
+body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--ink-inverted);
+}
+
+/* In the base layer, so a component's own focus utilities still win. The game draws its own rings,
+   so its controls are left alone. */
+@layer base {
+  :focus-visible:not([data-hero-ui], [data-hero-ui] *) {
+    outline: 2px solid var(--ink);
+    outline-offset: 2px;
+  }
+}
+
+/* The game while driving: the section fills the window exactly (it grows once, when Drive is
+   pressed, never during the dive), the title fades to a trace and leaves the drive world entirely,
+   and the scene layer drops the mask and opacity that keep the copy readable at rest. RacingHero
+   sets these attributes on the section; the copy's inert is set there too. */
+[data-hero-driving] {
+  height: 100vh;
+  height: 100dvh;
+  max-height: 100vh;
+  max-height: 100dvh;
+  overflow: hidden;
+}
+[data-hero-driving] > :not([data-hero-scene], [data-hero-ui]) {
+  opacity: 0.07;
+}
+[data-hero-world="drive"] > :not([data-hero-scene], [data-hero-ui]) {
+  opacity: 0;
+  visibility: hidden;
+}
+[data-hero-driving] > [data-hero-scene] {
+  -webkit-mask-image: none;
+  mask-image: none;
+  opacity: 1;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-hero-driving] > :not([data-hero-scene], [data-hero-ui]) {
+    transition: opacity 0.3s;
+  }
+}

@@ -1,0 +1,14 @@
+This project's code is licensed under the MIT licence in LICENSE. The
+following are not covered by it.
+
+The files src/components/hero/racing/data/*.json contain track and scenery
+geometry derived from OpenStreetMap, © OpenStreetMap contributors, available
+under the Open Database Licence (ODbL) 1.0. The elevation in those files
+derives from the sources named in README.md, each under its own terms.
+
+The fonts in src/app/fonts are licensed under the SIL Open Font License 1.1;
+the licence texts are beside them.
+
+The BadCodes name, logo and wordmark are not licensed under the MIT licence.
+A fork keeps the copyright notice in LICENSE but should not present itself as
+BadCodes or use the logo as its own brand.
