@@ -5,7 +5,7 @@ A GT3 car or an F1 car, a chase or cockpit camera, real elevation, and your best
 
 **Live: [drive.badcodes.dev](https://drive.badcodes.dev)**
 
-<!-- demo-video -->
+https://github.com/user-attachments/assets/ffe85a0b-32b8-42de-ab02-df513809ecdb
 
 The circuits are traced from OpenStreetMap centrelines at close to their official length (Spa 7.0 km, Sebring 6.0 km, Fuji 4.6 km) and lifted onto real survey elevation, so the climb through Eau Rouge and Raidillon, the Sebring bumps and the long Fuji straight are the real shapes. Around the track stand the real woods, buildings, roads and car parks from the map, and beyond them the real skyline, with Mount Fuji at its true bearing and size. It runs entirely in your browser: no account, nothing to install.
 
