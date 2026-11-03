@@ -85,11 +85,11 @@ npm run typecheck      # tsc --noEmit
 npm run lint           # ESLint
 npm test               # Vitest: the data, the physics, the engine, the scenery, the models
 npm run build          # production build
-npm run test:smoke     # serves the build and drives Spa in Chromium, on a desktop and a phone viewport
+npm run test:smoke     # serves the build and drives Spa in Chrome, on a desktop and a phone viewport
 npm run models         # regenerates public/hero/models from tools/build-models.mjs
 ```
 
-The smoke test needs a build first and Playwright's Chromium (`npx playwright install chromium`). It checks that every model is served, the miniature draws, Drive enters the drive world, the car moves, and `Esc` comes back, with no page error or console warning beyond the one above. It drives in Low poly, because Detailed under a software renderer takes minutes. Set `DRIVE_URL` to test a server that is already running.
+The smoke test needs a build first and Google Chrome 156.0.8078.73 or later: it launches the installed Chrome, not Playwright's bundled Chromium, so an older `npx playwright install chromium` setup is not enough. Without Chrome, `npx playwright install chrome` installs it (it needs an administrator shell on Windows and sudo on Linux). Each launch prints the Chrome version and refuses one older than that, the first build patched for CVE-2026-118306 et al. It checks that every model is served, the miniature draws, Drive enters the drive world, the car moves, and `Esc` comes back, with no page error or console warning beyond the one above. It drives in Low poly, because Detailed under a software renderer takes minutes. Set `DRIVE_URL` to test a server that is already running.
 
 ## Data and licence
 

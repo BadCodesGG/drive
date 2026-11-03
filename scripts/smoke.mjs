@@ -1,7 +1,7 @@
 // Serves the production build (run `npm run build` first) on a spare port, or uses DRIVE_URL if set.
-// Checks that every Detailed model is served from /hero/models/, then in headless Chromium, on a
-// desktop and a phone viewport: the miniature draws, Drive enters the drive world and hides the
-// title, the car moves (held throttle on the keyboard, the pad's automatic throttle on the phone), and Esc returns to
+// Checks that every Detailed model is served from /hero/models/, then in headless Google Chrome (Playwright,
+// channel "chrome"), on a desktop and a phone viewport: the miniature draws, Drive enters the drive world and hides
+// the title, the car moves (held throttle on the keyboard, the pad's automatic throttle on the phone), and Esc returns to
 // the miniature, with no page error or console warning except R3F's one THREE.Clock deprecation
 // (R3F 9.8 constructs a THREE.Clock, which three 0.186 deprecates). Drives in Low poly: rendering
 // Detailed under SwiftShader on a hosted runner costs minutes. Screenshots go to OUT_DIR.
@@ -9,7 +9,7 @@ import { spawn } from "node:child_process";
 import { mkdirSync, readdirSync } from "node:fs";
 import { createRequire } from "node:module";
 import path from "node:path";
-import { chromium } from "playwright";
+import { launchChrome } from "./lib/chrome.mjs";
 
 const app = path.join(import.meta.dirname, "..");
 let server = null;
@@ -46,7 +46,10 @@ const models = readdirSync(path.join(app, "public/hero/models"));
 const served = await Promise.all(models.map(async (m) => `${(await fetch(`${url}/hero/models/${m}`)).status} ${m}`));
 check("every Detailed model is served from /hero/models/", models.length > 0 && served.every((m) => m.startsWith("200")), served.join(", "));
 
-const browser = await chromium.launch({ args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
+// The installed Google Chrome on purpose, with no fallback: Playwright's bundled Chromium is the build open to
+// CVE-2026-118306 et al. Without Chrome the launch fails with Playwright's install hint, and a Chrome
+// older than the patched build is refused (scripts/lib/chrome.mjs).
+const browser = await launchChrome({ args: ["--use-gl=angle", "--use-angle=swiftshader", "--enable-unsafe-swiftshader", "--ignore-gpu-blocklist"] });
 for (const [name, viewport, isMobile] of [["desktop", { width: 1280, height: 720 }, false], ["phone", { width: 390, height: 844 }, true]]) {
   const ctx = await browser.newContext({ viewport, isMobile, hasTouch: isMobile });
   await ctx.addInitScript(() => {
