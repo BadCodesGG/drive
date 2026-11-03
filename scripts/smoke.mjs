@@ -1,6 +1,6 @@
 // Serves the production build (run `npm run build` first) on a spare port, or uses DRIVE_URL if set.
-// Checks that every Detailed model is served from /hero/models/, then in headless Google Chrome (Playwright, channel "chrome"), on a
-// desktop and a phone viewport: the miniature draws, Drive enters the drive world and hides the
+// Checks that every Detailed model is served from /hero/models/, then in headless Google Chrome
+// (Playwright, channel "chrome"), on a desktop and a phone viewport: the miniature draws, Drive enters the drive world and hides the
 // title, the car moves (held throttle on the keyboard, the pad's automatic throttle on the phone), and Esc returns to
 // the miniature, with no page error or console warning except R3F's one THREE.Clock deprecation
 // (R3F 9.8 constructs a THREE.Clock, which three 0.186 deprecates). Drives in Low poly: rendering
