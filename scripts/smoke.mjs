@@ -44,6 +44,13 @@ const waitFor = (p, fn, timeout) => p.waitForFunction(fn, null, { timeout }).the
 
 const models = readdirSync(path.join(app, "public/hero/models"));
 const served = await Promise.all(models.map(async (m) => `${(await fetch(`${url}/hero/models/${m}`)).status} ${m}`));
+// next.config.ts sends these on every route; checked on the served page and a static model, not only in the config.
+const FRAME_ANCESTORS = "frame-ancestors 'self' https://badcodes.dev https://www.badcodes.dev";
+for (const route of ["/", `/hero/models/${models[0]}`]) {
+  const h = (await fetch(`${url}${route}`)).headers;
+  const ok = h.get("x-content-type-options") === "nosniff" && h.get("referrer-policy") === "strict-origin-when-cross-origin" && h.get("content-security-policy") === FRAME_ANCESTORS;
+  check(`${route} sends nosniff, the referrer policy and frame-ancestors`, ok, `${h.get("x-content-type-options")} | ${h.get("referrer-policy")} | ${h.get("content-security-policy")}`);
+}
 check("every Detailed model is served from /hero/models/", models.length > 0 && served.every((m) => m.startsWith("200")), served.join(", "));
 
 // The installed Google Chrome on purpose, with no fallback: Playwright's bundled Chromium is the build open to
