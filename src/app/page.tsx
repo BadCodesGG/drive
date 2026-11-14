@@ -18,6 +18,7 @@ export default function Home() {
           </p>
           <a
             href="https://badcodes.dev"
+            target="_top"
             className="pointer-events-auto mt-0.5 inline-block py-1.5 font-mono text-[11px] uppercase tracking-[0.08em] text-ink underline decoration-dotted underline-offset-2 hover:decoration-solid focus-visible:outline-2 focus-visible:outline-accent"
           >
             badcodes.dev
